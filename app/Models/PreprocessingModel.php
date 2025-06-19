@@ -16,6 +16,6 @@ class PreprocessingModel extends Model
         'tokenizing',
         'stopword',
         'stemming',
-        'sentimen',
+        'sentiment',
     ];
 }

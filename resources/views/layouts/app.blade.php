@@ -9,22 +9,17 @@
   <meta name="title" content="Sentimen IKN">
 
   <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('volt/assets/img/brand/logo.png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('volt/assets/img/brand/logo.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('volt/assets/img/brand/logo.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('volt/assets/img/brand/logo.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('volt/assets/img/brand/logo.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('volt/assets/img/brand/logo.png') }}">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
 
   <link type="text/css" href="{{ asset('volt/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
   <link type="text/css" href="{{ asset('volt/vendor/notyf/notyf.min.css') }}" rel="stylesheet">
-  <link type="text/css" href="{{ asset('volt/vendor/fullcalendar/main.min.css') }}" rel="stylesheet"><!-- Apex Charts -->
-  <link type="text/css" href="{{ asset('volt/vendor/apexcharts/dist/apexcharts.css') }}" rel="stylesheet"><!-- Dropzone -->
-  <link type="text/css" href="{{ asset('volt/vendor/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet"><!-- Choices  -->
-  <link type="text/css" href="{{ asset('volt/vendor/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet"><!-- Leaflet JS -->
-  <link type="text/css" href="{{ asset('volt/vendor/leaflet/dist/leaflet.css') }}" rel="stylesheet"><!-- Volt CSS -->
   <link type="text/css" href="{{ asset('volt/css/volt.css') }}" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.1.2/src/wordcloud2.min.js"></script>
+  <script src="{{ asset('js/chart.min.js') }}"></script>
+  <script src="{{ asset('js/wordcloud2.min.js') }}"></script>
 </head>
 
 <body>
@@ -62,7 +57,7 @@
           </div>
         </li>
 
-        <li role="separator" class="dropdown-divider mt-2 mb-3 border-gray-700"></li>
+        <li role="separator" class="dropdown-divider mt-2 mb-2 border-gray-700"></li>
 
         <!-- Dashboard -->
         <li class="nav-item {{ Request::routeIs('dashboard') ? 'active' : '' }}">
@@ -155,7 +150,19 @@
           </a>
         </li>
 
-        <li role="separator" class="dropdown-divider mt-3 mb-3 border-gray-700"></li>
+        <li role="separator" class="dropdown-divider mt-2 mb-2 border-gray-700"></li>
+
+        <!-- Users -->
+        <li class="nav-item {{ Request::routeIs('users.*') ? 'active' : '' }}">
+          <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon">
+              <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+              </svg>
+            </span>
+            <span class="sidebar-text">Users</span>
+          </a>
+        </li>
 
         <!-- Logout -->
         <li class="nav-item">
@@ -204,30 +211,23 @@
     </footer>
   </main>
 
+  <!-- Core Vendor JS -->
   <script src="{{ asset('volt/vendor/@popperjs/core/dist/umd/popper.min.js') }}"></script>
-  <script src="{{ asset('volt/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script><!-- Vendor JS -->
-  <script src="{{ asset('volt/vendor/onscreen/dist/on-screen.umd.min.js') }}"></script><!-- Slider -->
-  <script src="{{ asset('volt/vendor/nouislider/distribute/nouislider.min.js') }}"></script><!-- Smooth scroll -->
-  <script src="{{ asset('volt/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js') }}"></script><!-- Count up -->
-  <script src="{{ asset('volt/vendor/countup.js/dist/countUp.umd.js') }}"></script><!-- Apex Charts -->
-  <script src="{{ asset('volt/vendor/apexcharts/dist/apexcharts.min.js') }}"></script><!-- Datepicker -->
-  <script src="{{ asset('volt/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script><!-- DataTables -->
-  <script src="{{ asset('volt/vendor/simple-datatables/dist/umd/simple-datatables.js') }}"></script><!-- Sweet Alerts 2 -->
-  <script src="{{ asset('volt/vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script><!-- Moment JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script><!-- Vanilla JS Datepicker -->
-  <script src="{{ asset('volt/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script><!-- Full Calendar -->
-  <script src="{{ asset('volt/vendor/fullcalendar/main.min.js') }}"></script><!-- Dropzone -->
-  <script src="{{ asset('volt/vendor/dropzone/dist/min/dropzone.min.js') }}"></script><!-- Choices.js -->
-  <script src="{{ asset('volt/vendor/choices.js/public/assets/scripts/choices.min.js') }}"></script><!-- Notyf -->
-  <script src="{{ asset('volt/vendor/notyf/notyf.min.js') }}"></script><!-- Mapbox & Leaflet.js -->
-  <script src="{{ asset('volt/vendor/leaflet/dist/leaflet.js') }}"></script><!-- SVG Map -->
-  <script src="{{ asset('volt/vendor/svg-pan-zoom/dist/svg-pan-zoom.min.js') }}"></script>
-  <script src="{{ asset('volt/vendor/svgmap/dist/svgMap.min.js') }}"></script><!-- Simplebar -->
-  <script src="{{ asset('volt/vendor/simplebar/dist/simplebar.min.js') }}"></script><!-- Sortable Js -->
-  <script src="{{ asset('volt/vendor/sortablejs/Sortable.min.js') }}"></script><!-- Github buttons -->
-  <script async defer="defer" src="https://buttons.github.io/buttons.js"></script><!-- Volt JS -->
-  <script src="{{ asset('') }}volt/assets/js/volt.js"></script>
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"943313b0d9bf405f","version":"2025.4.0-1-g37f21b1","r":1,"token":"3a2c60bab7654724a0f7e5946db4ea5a","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
+  <script src="{{ asset('volt/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/onscreen/dist/on-screen.umd.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/nouislider/distribute/nouislider.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js') }}"></script>
+  <script src="{{ asset('vendor/chartist/dist/chartist.min.js') }}"></script>
+  <script src="{{ asset('vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  <script src="{{ asset('volt/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/notyf/notyf.min.js') }}"></script>
+  <script src="{{ asset('volt/vendor/simplebar/dist/simplebar.min.js') }}"></script>
+  <script async defer="defer" src="https://buttons.github.io/buttons.js"></script>
+  <script src="{{ asset('volt/assets/js/volt.js') }}"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"93d1e4612dd0f924","version":"2025.4.0-1-g37f21b1","r":1,"token":"3a2c60bab7654724a0f7e5946db4ea5a","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
   @yield('js')
 </body>
 

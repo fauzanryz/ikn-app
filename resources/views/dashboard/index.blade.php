@@ -42,7 +42,7 @@
         gridSize: 12,
         weightFactor: 8,
         color: '#272c41',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#f8bd7a',
         rotateRatio: 0.5,
         rotationSteps: 2
     });

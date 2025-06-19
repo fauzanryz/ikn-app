@@ -10,7 +10,8 @@ class DatasetModel extends Model
     use HasFactory;
 
     protected $table = 'dataset';
-
+    protected $primaryKey = 'id';
+    public $timestamps = false;
     // Isi fillable sesuai kolom yang ingin diisi
     protected $fillable = [
         'conversation_id_str',

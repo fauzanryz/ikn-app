@@ -6,42 +6,48 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\PreprocessingController;
 use App\Http\Controllers\NaiveBayesController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PageController;
 
-// Halaman login default
-Route::get('/', function () {
-    return view('auth.login');
-});
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// Halaman utama
+Route::get('/', [PageController::class, 'index']);
+Route::post('/cekSentimen', [PageController::class, 'cekSentimen'])->name('cekSentimen');
 
 // Authentication
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard (autentikasi wajib)
+// Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
 
-// Halaman data statis (jika belum dipakai controller)
-Route::get('/data', function () {
-    return view('data.index');
-})->middleware('auth')->name('data.index');
-
-// Dataset (autentikasi wajib)
+// Dataset
 Route::prefix('dataset')->middleware('auth')->group(function () {
     Route::get('/full', [DatasetController::class, 'full'])->name('dataset.full');
     Route::get('/full-text', [DatasetController::class, 'fullText'])->name('dataset.fulltext');
     Route::delete('/delete-all', [DatasetController::class, 'deleteAll'])->name('dataset.deleteAll');
+    Route::post('/import', [DatasetController::class, 'import'])->name('dataset.import');
 });
 
-// Preprocessing (autentikasi wajib)
+// Preprocessing
 Route::prefix('preprocessing')->middleware('auth')->group(function () {
     Route::get('/', [PreprocessingController::class, 'index'])->name('preprocessing');
     Route::get('/dataclean', [PreprocessingController::class, 'dataclean'])->name('preprocessing.dataclean');
     Route::put('/update-sentimen/{id}', [PreprocessingController::class, 'updateSentimen'])->name('preprocessing.updateSentimen');
 });
 
-// Naive Bayes (autentikasi wajib)
+// Naive Bayes
 Route::get('/naivebayes', [NaiveBayesController::class, 'index'])
     ->middleware('auth')
     ->name('naivebayes');
+
+// User Management
+Route::resource('users', UserController::class)->middleware('auth');

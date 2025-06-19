@@ -42,7 +42,7 @@
       <td style="font-size: 10px;">{{ $row->tokenizing }}</td>
       <td style="font-size: 10px;">{{ $row->stopword }}</td>
       <td style="font-size: 10px;">{{ $row->stemming }}</td>
-      <td style="font-size: 10px;">{{ ucfirst($row->sentimen) }}</td>
+      <td style="font-size: 10px;">{{ ucfirst($row->sentiment) }}</td>
      </tr>
      @endforeach
     </tbody>

@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        // Tabel dataset
+        // Tabel dataset dengan conversation_id_str sebagai primary key
         Schema::create('dataset', function (Blueprint $table) {
             $table->id();
-            $table->string('conversation_id_str', 50)->nullable();
+            $table->string('conversation_id_str', 50);
+            $table->string('created_at')->nullable();
             $table->integer('favorite_count')->nullable();
             $table->text('full_text')->nullable();
             $table->string('id_str', 50)->nullable();
@@ -24,10 +25,9 @@ return new class extends Migration {
             $table->text('tweet_url')->nullable();
             $table->string('user_id_str', 50)->nullable();
             $table->string('username', 100)->nullable();
-            $table->timestamps();
         });
 
-        // Tabel preprocessing (tanpa full_text)
+        // Tabel preprocessing tetap
         Schema::create('preprocessing', function (Blueprint $table) {
             $table->id();
             $table->text('data_clean')->nullable();
@@ -37,7 +37,6 @@ return new class extends Migration {
             $table->text('stopword')->nullable();
             $table->text('stemming')->nullable();
             $table->enum('sentiment', ['positif', 'negatif'])->nullable();
-            $table->timestamps();
         });
     }
 
