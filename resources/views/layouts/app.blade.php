@@ -165,15 +165,15 @@
         </li>
 
         <!-- Logout -->
-        <li class="nav-item">
-          <a href="#" class="nav-link d-flex align-items-center" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <li class="nav-item {{ Request::routeIs('logout') ? 'active' : '' }}">
+          <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <span class="sidebar-icon">
               <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M16 13v-2H7V8l-5 4 5 4v-3h9z"></path>
                 <path d="M20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path>
               </svg>
             </span>
-            <span class="sidebar-text">Keluar</span>
+            <span class="sidebar-text">Logout</span>
           </a>
 
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -35,6 +35,7 @@ Route::prefix('dataset')->middleware('auth')->group(function () {
     Route::get('/full-text', [DatasetController::class, 'fullText'])->name('dataset.fulltext');
     Route::delete('/delete-all', [DatasetController::class, 'deleteAll'])->name('dataset.deleteAll');
     Route::post('/import', [DatasetController::class, 'import'])->name('dataset.import');
+    Route::get('/dataset/backup/download/{filename}', [DatasetController::class, 'downloadBackup'])->name('dataset.downloadBackup');
 });
 
 // Preprocessing
@@ -49,5 +50,13 @@ Route::get('/naivebayes', [NaiveBayesController::class, 'index'])
     ->middleware('auth')
     ->name('naivebayes');
 
-// User Management
-Route::resource('users', UserController::class)->middleware('auth');
+// Users
+Route::get('/users', [UserController::class, 'index'])->name('users.index')->middleware('auth');
+Route::post('/users', [UserController::class, 'store'])->name('users.store')->middleware('auth');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create')->middleware('auth'); // opsional
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show')->middleware('auth'); // opsional
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('auth'); // opsional
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update')->middleware('auth');
+Route::patch('/users/{user}', [UserController::class, 'update'])->middleware('auth');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('auth');
+

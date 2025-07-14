@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PreprocessingModel;
+use Illuminate\Support\Facades\Auth;
 
 class PreprocessingController extends Controller
 {
@@ -35,6 +36,16 @@ class PreprocessingController extends Controller
         // Simpan perubahan ke database
         $data->save();
 
+        $this->tulisLog('Mengubah sentiment', "ID {$data->id} menjadi {$request->sentiment}");
+
         return redirect()->back()->with('success', 'Sentiment berhasil diperbarui.');
+    }
+
+    private function tulisLog($aksi, $target)
+    {
+        $tanggal = now()->format('Y-m-d H:i:s');
+        $userEmail = Auth::check() ? Auth::user()->email : 'Guest';
+        $baris = "[$tanggal] $aksi: $target | oleh: $userEmail\n";
+        file_put_contents(storage_path('logs/log.txt'), $baris, FILE_APPEND);
     }
 }

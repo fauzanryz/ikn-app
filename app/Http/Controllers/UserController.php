@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -18,69 +19,86 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',            // Nama wajib diisi, string, maksimal 255 karakter
-            'email' => 'required|email|unique:users,email', // Email wajib unik di tabel users
-            'password' => 'required|min:8|confirmed',       // Password wajib, minimal 8 karakter, harus dikonfirmasi
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        // Jika validasi gagal, kembali dengan pesan error pertama
         if ($validator->fails()) {
             return back()->with('error', $validator->errors()->first());
         }
 
-        // Simpan user baru ke database
         UserModel::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Enkripsi password
+            'password' => Hash::make($request->password),
         ]);
+
+        $this->tulisLog('Menambahkan', $request->name);
 
         return back()->with('success', 'User berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
     {
-        $user = UserModel::findOrFail($id); // Cari user, jika tidak ada maka error 404
+        $user = UserModel::findOrFail($id);
 
-        // Aturan validasi
-        $rules = [
-            'name' => 'required|string|max:255',                       // Nama wajib
-            'email' => 'required|email|unique:users,email,' . $id,     // Email wajib unik kecuali milik user ini
-        ];
-
-        // Jika password diisi, validasi juga password
-        if ($request->filled('password')) {
-            $rules['password'] = 'required|min:8|confirmed'; // Password minimal 8 karakter
+        // Proteksi: larang update user ID = 1 atau email ikn@gmail.com
+        if ($user->id == 1 || $user->email === 'ikn@gmail.com') {
+            return back()->with('error', 'User ini tidak boleh diubah.');
         }
 
-        // Jalankan validasi
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ];
+
+        if ($request->filled('password')) {
+            $rules['password'] = 'required|min:8|confirmed';
+        }
+
         $validator = Validator::make($request->all(), $rules);
 
-        // Jika validasi gagal
         if ($validator->fails()) {
             return back()->with('error', $validator->errors()->first());
         }
 
-        // Update data
         $user->name = $request->name;
         $user->email = $request->email;
 
-        // Jika password diisi, update password
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
-        // Simpan perubahan
         $user->save();
+
+        $this->tulisLog('Mengubah', $user->name);
 
         return back()->with('success', 'User berhasil diupdate.');
     }
 
     public function destroy($id)
     {
-        UserModel::destroy($id);
+        $user = UserModel::findOrFail($id);
+
+        // Proteksi: larang hapus user ID = 1 atau email ikn@gmail.com
+        if ($user->id == 1 || $user->email === 'ikn@gmail.com') {
+            return back()->with('error', 'User ini tidak boleh dihapus.');
+        }
+
+        $this->tulisLog('Menghapus', $user->name);
+
+        $user->delete();
+
         return back()->with('success', 'User berhasil dihapus.');
+    }
+
+    private function tulisLog($aksi, $targetUser)
+    {
+        $tanggal = now()->format('Y-m-d H:i:s');
+        $userEmail = Auth::check() ? Auth::user()->email : 'Guest';
+        $baris = "[$tanggal] $aksi user: $targetUser | oleh: $userEmail\n";
+        file_put_contents(storage_path('logs/log.txt'), $baris, FILE_APPEND);
     }
 }

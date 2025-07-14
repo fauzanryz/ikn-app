@@ -57,6 +57,11 @@
     <button class="btn btn-sm btn-primary d-inline-flex align-items-center px-3" data-bs-toggle="modal" data-bs-target="#deleteAllModal">
       Delete All Data
     </button>
+    <a href="https://colab.research.google.com/drive/1Hc2PXsDc5SZR9e6Bb1p51SIMxoSBBQLR#scrollTo=6S00x_f6-GeD"
+      target="_blank"
+      class="btn btn-sm btn-primary d-inline-flex align-items-center px-3">
+      Crawl Data
+    </a>
   </div>
 
   <!-- Modal Konfirmasi Delete Semua Data -->
@@ -155,6 +160,15 @@
     <div class="mt-3">
       {{ $data->links('pagination::bootstrap-5') }}
     </div>
+  </div>
+  <hr class="mb-3 mt-1">
+  <div class="d-flex justify-content-end gap-2">
+    @if ($latestBackup)
+    <a href="{{ route('dataset.downloadBackup', basename($latestBackup)) }}"
+      class="btn btn-sm btn-primary d-inline-flex align-items-center px-3">
+      Download Backup Terakhir
+    </a>
+    @endif
   </div>
 </div>
 
